@@ -19,15 +19,14 @@ Requerimientos completos en [requerimientos.md](requerimientos.md) · Diseño UI
 ## Módulo de autenticación
 | Pantalla | Qué hace |
 |---|---|
-| Login | Correo, contraseña con ojo, "¿Olvidaste tu clave?", "Regístrate". El botón se habilita solo con datos válidos. |
-| Registro | Nombre, correo, contraseña, repetir clave y términos. Validación en vivo. |
-| Recuperar clave | Correo + "Enviar enlace". Confirma con un Dialog y vuelve al login. |
+| Login | Correo o usuario, contraseña con ojo, "Recuérdame", "¿Olvidaste tu contraseña?", "Iniciar con Google" (próximamente) y "Regístrate". El botón se habilita solo con datos válidos. |
+| Registro | Nombre, correo, contraseña, repetir contraseña y switch de términos. Validación en vivo. |
+| Recuperar contraseña | Correo + "Enviar enlace". Confirma con un Dialog. "Volver al inicio" regresa al login. |
 | Inicio (provisorio) | Muestra el usuario y permite cerrar sesión. |
 
 Estados de la UI (`AuthUiState`): `Idle`, `Loading` (círculo de carga), `Success`, `Error`.
 
-### Capturas
-<!-- Reemplazar por capturas reales del emulador o de los @Preview -->
+### Capturas (emulador)
 | Login | Registro | Recuperar clave |
 |---|---|---|
 | ![Login](ingenieria/capturas/login.png) | ![Registro](ingenieria/capturas/registro.png) | ![Recuperar](ingenieria/capturas/recuperar.png) |
@@ -47,10 +46,16 @@ app/src/main/java/com/example/soundcraft/
 ## Bitácora de prompts e IA
 | ID | Objetivo | Asistente | ¿Compiló al 1er intento? | Auditoría humana (errores, alucinaciones, cambios manuales) |
 |---|---|---|---|---|
-| P1 | `AuthUiState` + `AuthViewModel` con StateFlow y validación (Regex email, mín. 6) | Claude (Claude Code) | Sí | Se separaron `esEmailValido`/`esPasswordValida` para validar en vivo desde la UI. Se agregaron pruebas unitarias. |
-| P2 | Tema oscuro SoundCraft a partir del diseño | Claude (Claude Code) | Sí | Se usó el violeta del logo como color principal en lugar del azul #2563EB de la guía, para respetar la identidad de SoundCraft. |
-| P3 | `LoginScreen` y `RegisterScreen` en Compose | Claude (Claude Code) | Sí | Se dividió cada pantalla en `Screen` (con ViewModel) y `Content` (sin ViewModel) para que los `@Preview` funcionen (*state hoisting*). |
-| P4 | `ForgotPasswordScreen` + `NavHost` | Claude (Claude Code) | Sí | Se usó un solo `AuthViewModel` compartido y `resetState()` al cambiar de pantalla, para que un error no aparezca en la pantalla siguiente. |
+Los prompts 1 a 4 son los del docente (Caso de Uso, diapositivas 5–7) con "AppSeminario" cambiado
+por "SoundCraft". El texto completo de cada prompt está en
+[bitacoras/2026-11-12_modulo_autenticacion.md](bitacoras/2026-11-12_modulo_autenticacion.md).
 
-> **Equipo:** completar la columna de auditoría con lo que ustedes revisaron y
-> probaron en el emulador. Los prompts completos están en [bitacoras/](bitacoras/).
+| ID | Objetivo | Asistente | ¿Compiló al 1er intento? | Auditoría humana (errores, alucinaciones, cambios manuales) |
+|---|---|---|---|---|
+| P1 | `AuthUiState` + `AuthViewModel` con StateFlow y validación (Regex email, mín. 6) | Claude (Claude Code) | Sí | Validaciones públicas para validar en vivo desde la UI; pruebas unitarias; el login acepta correo o usuario (como pide el diseño). |
+| P2 | `LoginScreen` | Claude (Claude Code) | Sí | Separado en `Screen` + `Content` para usar `@Preview` (*state hoisting*); `TextField` gris en vez de `OutlinedTextField` por el diseño. |
+| P3 | `RegisterScreen` con validación activa | Claude (Claude Code) | Sí | Checkbox reemplazado por Switch y botón "REGISTRARSE", como en el diseño. |
+| P4 | `ForgotPasswordScreen` + `NavHost` | Claude (Claude Code) | Sí | Un solo `AuthViewModel` compartido y `resetState()` al cambiar de pantalla. |
+| P5 | Aplicar nuestro diseño y redibujar el logo "S" como vector | Claude (Claude Code) | Sí | Logo trazado a mano desde la imagen; violeta del logo en lugar del azul #2563EB de la guía; falta la tipografía Poppins. |
+
+> **Equipo:** completar la columna de auditoría con lo que ustedes revisaron y probaron.
