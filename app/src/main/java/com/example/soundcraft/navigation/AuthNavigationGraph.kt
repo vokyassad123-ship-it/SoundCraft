@@ -11,10 +11,12 @@ import com.example.soundcraft.ui.auth.AuthViewModel
 import com.example.soundcraft.ui.auth.ForgotPasswordScreen
 import com.example.soundcraft.ui.auth.LoginScreen
 import com.example.soundcraft.ui.auth.RegisterScreen
-import com.example.soundcraft.ui.home.HomeScreen
+import com.example.soundcraft.ui.main.MainScreen
+import com.example.soundcraft.ui.splash.SplashScreen
 
 /** Las "direcciones" de cada pantalla. */
 sealed class AuthScreen(val route: String) {
+    data object Splash : AuthScreen("splash")
     data object Login : AuthScreen("login")
     data object Register : AuthScreen("register")
     data object ForgotPassword : AuthScreen("forgot_password")
@@ -34,7 +36,14 @@ fun AuthNavigationGraph(navController: NavHostController) {
         }
     }
 
-    NavHost(navController = navController, startDestination = AuthScreen.Login.route) {
+    NavHost(navController = navController, startDestination = AuthScreen.Splash.route) {
+        composable(AuthScreen.Splash.route) {
+            SplashScreen(onTerminar = {
+                navController.navigate(AuthScreen.Login.route) {
+                    popUpTo(AuthScreen.Splash.route) { inclusive = true }
+                }
+            })
+        }
         composable(AuthScreen.Login.route) {
             LoginScreen(
                 viewModel = authViewModel,
@@ -58,9 +67,9 @@ fun AuthNavigationGraph(navController: NavHostController) {
         }
         composable(AuthScreen.Home.route) {
             val usuario by authViewModel.usuarioActual.collectAsState()
-            HomeScreen(
+            MainScreen(
                 usuario = usuario,
-                onLogout = {
+                onCerrarSesion = {
                     authViewModel.logout()
                     navController.navigate(AuthScreen.Login.route) {
                         popUpTo(AuthScreen.Home.route) { inclusive = true }
