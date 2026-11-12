@@ -1,4 +1,4 @@
-# Bitácora – 13/11/2026 – Gestión de recursos (pantallas principales)
+﻿# Bitácora – 12/11/2026 – Gestión de recursos (pantallas principales)
 
 **Asistente:** Claude (Claude Code) · **Entrada:** `ingenieria/diseno_ui_auth.jpg` y `requerimientos.md`
 
