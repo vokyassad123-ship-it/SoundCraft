@@ -1,6 +1,12 @@
 package com.example.soundcraft.ui.panel
 
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -33,7 +39,6 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Slider
-import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -251,15 +256,7 @@ private fun Reproductor(estado: ReproductorState, acciones: AccionesPanel, lista
             text = estado.pistaActual?.autor?.uppercase().orEmpty(),
             fontSize = 16.sp, color = Color.White,
         )
-        Slider(
-            value = estado.progreso,
-            onValueChange = acciones.onProgreso,
-            colors = SliderDefaults.colors(
-                thumbColor = Color.White,
-                activeTrackColor = Color.White,
-                inactiveTrackColor = Color.White.copy(alpha = 0.4f),
-            ),
-        )
+        BarraProgreso(estado.progreso, acciones.onProgreso)
         Row(
             Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
@@ -279,6 +276,27 @@ private fun Reproductor(estado: ReproductorState, acciones: AccionesPanel, lista
             BotonControl(Icons.Filled.Repeat, "Repetir", activo = estado.repetir, onClick = acciones.onRepetir)
         }
     }
+}
+
+/** Línea fina blanca con una bolita, como en el diseño (se puede arrastrar). */
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun BarraProgreso(valor: Float, onCambio: (Float) -> Unit) {
+    Slider(
+        value = valor,
+        onValueChange = onCambio,
+        thumb = { Box(Modifier.size(18.dp).clip(CircleShape).background(Color.White)) },
+        track = { estado ->
+            val rango = estado.valueRange.endInclusive - estado.valueRange.start
+            val fraccion = if (rango == 0f) 0f else (estado.value - estado.valueRange.start) / rango
+            Canvas(Modifier.fillMaxWidth().height(4.dp)) {
+                val y = size.height / 2
+                val grosor = 3.dp.toPx()
+                drawLine(Color.White.copy(alpha = 0.4f), Offset(0f, y), Offset(size.width, y), grosor, StrokeCap.Round)
+                drawLine(Color.White, Offset(0f, y), Offset(size.width * fraccion, y), grosor, StrokeCap.Round)
+            }
+        },
+    )
 }
 
 @Composable
