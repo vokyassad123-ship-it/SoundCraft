@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Logo de SoundCraft: dos piezas iguales (una bola con una cola en punta),
+  la segunda girada 180° alrededor del centro, dejando una onda negra entre ellas.
+  Redibujado como vector a partir de ingenieria/diseno_ui_auth.jpg.
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="50dp"
+    android:viewportWidth="480"
+    android:viewportHeight="500">
+
+    <!-- Pieza de arriba -->
+    <path
+        android:fillColor="#A020F0"
+        android:pathData="M115,105 C115,45 160,5 210,5 C280,5 340,40 340,100 C340,130 330,150 360,157 C400,163 440,163 462,170 C475,215 470,275 462,320 C445,255 420,233 380,227 C330,220 290,215 240,210 C180,203 130,190 120,150 C113,135 113,120 115,105 Z" />
+
+    <!-- Pieza de abajo: la misma, girada 180° -->
+    <group
+        android:pivotX="235"
+        android:pivotY="250"
+        android:rotation="180">
+        <path
+            android:fillColor="#A020F0"
+            android:pathData="M115,105 C115,45 160,5 210,5 C280,5 340,40 340,100 C340,130 330,150 360,157 C400,163 440,163 462,170 C475,215 470,275 462,320 C445,255 420,233 380,227 C330,220 290,215 240,210 C180,203 130,190 120,150 C113,135 113,120 115,105 Z" />
+    </group>
+</vector>

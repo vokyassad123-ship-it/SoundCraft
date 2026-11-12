@@ -10,6 +10,8 @@ val GrisTexto = Color(0xFFB3B3B3)
 val VioletaSoundCraft = Color(0xFFA020F0)   // logo y acciones principales
 val RosaSoundCraft = Color(0xFFFF0A8A)      // degradados y reproductor
 val RojoError = Color(0xFFFF5470)
+val GrisCampo = Color(0xFFD3CFD6)          // fondo de campos y botón secundario
+val TextoOscuro = Color(0xFF1A1A1A)        // texto dentro de los campos grises
 
 // Colores de las tarjetas de categoría y los pads
 val NaranjaRock = Color(0xFFFF7A1A)

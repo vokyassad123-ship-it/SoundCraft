@@ -22,6 +22,14 @@ class AuthValidacionTest {
     }
 
     @Test
+    fun loginAceptaCorreoOUsuario() {
+        assertTrue(AuthViewModel.esEmailOUsuarioValido("amira@correo.com"))
+        assertTrue(AuthViewModel.esEmailOUsuarioValido("amira_assad"))
+        assertFalse(AuthViewModel.esEmailOUsuarioValido("am"))
+        assertFalse(AuthViewModel.esEmailOUsuarioValido("amira assad"))
+    }
+
+    @Test
     fun passwordMinimoSeisCaracteres() {
         assertFalse(AuthViewModel.esPasswordValida("12345"))
         assertTrue(AuthViewModel.esPasswordValida("123456"))

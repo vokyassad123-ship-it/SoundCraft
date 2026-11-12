@@ -5,13 +5,11 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Checkbox
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -30,9 +28,11 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.soundcraft.ui.components.BotonPrincipal
+import com.example.soundcraft.ui.components.BotonPill
 import com.example.soundcraft.ui.components.CampoPassword
 import com.example.soundcraft.ui.components.CampoTexto
+import com.example.soundcraft.ui.components.FilaSwitch
+import com.example.soundcraft.ui.components.SoundCraftLogoUnete
 import com.example.soundcraft.ui.theme.SoundCraftTheme
 
 /** Pantalla de registro conectada al ViewModel. */
@@ -86,22 +86,18 @@ fun RegisterContent(
                 .padding(padding)
                 .imePadding()
                 .verticalScroll(rememberScrollState())
-                .padding(16.dp),
+                .padding(horizontal = 32.dp, vertical = 16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(12.dp),
         ) {
+            Spacer(Modifier.height(40.dp))
+            SoundCraftLogoUnete()
             Spacer(Modifier.height(24.dp))
             Text(
                 text = "CREAR CUENTA",
-                style = MaterialTheme.typography.headlineMedium,
-                fontWeight = FontWeight.Black,
-                color = MaterialTheme.colorScheme.primary,
+                style = MaterialTheme.typography.titleSmall,
+                fontWeight = FontWeight.Bold,
             )
-            Text(
-                text = "Únete a SoundCraft",
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-            )
-            Spacer(Modifier.height(8.dp))
 
             CampoTexto(
                 valor = nombre,
@@ -129,52 +125,47 @@ fun RegisterContent(
             CampoPassword(
                 valor = repetir,
                 onCambio = { repetir = it },
-                etiqueta = "Repetir clave",
+                etiqueta = "Repetir contraseña",
                 accionIme = ImeAction.Done,
                 habilitado = !cargando,
-                error = if (repetir.isNotEmpty() && !coinciden) "Las claves no coinciden" else null,
+                error = if (repetir.isNotEmpty() && !coinciden) "Las contraseñas no coinciden" else null,
             )
 
-            Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth()) {
-                Checkbox(
-                    checked = aceptaTerminos,
-                    onCheckedChange = { aceptaTerminos = it },
-                    enabled = !cargando,
-                )
-                Text("Acepto los términos y condiciones", style = MaterialTheme.typography.bodyMedium)
-            }
+            FilaSwitch(
+                texto = "He leído y acepto los términos",
+                activado = aceptaTerminos,
+                onCambio = { aceptaTerminos = it },
+                habilitado = !cargando,
+            )
 
             if (uiState is AuthUiState.Error) {
                 Text(uiState.errorMessage, color = MaterialTheme.colorScheme.error)
             }
 
-            BotonPrincipal(
+            BotonPill(
                 texto = "REGISTRARSE",
                 onClick = { onRegister(nombre, email, password) },
                 habilitado = formularioValido,
                 cargando = cargando,
             )
 
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.align(Alignment.CenterHorizontally),
-            ) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
                 Text("¿Ya tienes cuenta?", style = MaterialTheme.typography.bodyMedium)
                 TextButton(onClick = onNavigateToLogin) {
-                    Text("Inicia sesión", fontWeight = FontWeight.Bold)
+                    Text("INICIA SESIÓN", fontWeight = FontWeight.Bold)
                 }
             }
         }
     }
 }
 
-@Preview(name = "Registro", showBackground = true, backgroundColor = 0xFF000000)
+@Preview(name = "Registro", showBackground = true, backgroundColor = 0xFF000000, heightDp = 800)
 @Composable
 private fun RegisterPreview() {
     SoundCraftTheme { RegisterContent(AuthUiState.Idle, { _, _, _ -> }, {}) }
 }
 
-@Preview(name = "Registro cargando", showBackground = true, backgroundColor = 0xFF000000)
+@Preview(name = "Registro cargando", showBackground = true, backgroundColor = 0xFF000000, heightDp = 800)
 @Composable
 private fun RegisterLoadingPreview() {
     SoundCraftTheme { RegisterContent(AuthUiState.Loading, { _, _, _ -> }, {}) }

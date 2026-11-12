@@ -25,8 +25,10 @@ class AuthViewModel : ViewModel() {
     private val _usuarioActual = MutableStateFlow<String?>(null)
     val usuarioActual: StateFlow<String?> = _usuarioActual.asStateFlow()
 
+    /** El login acepta correo O nombre de usuario (como dice el diseño). */
     fun login(email: String, password: String) {
-        val error = validarEmail(email) ?: validarPassword(password)
+        val error = (if (esEmailOUsuarioValido(email)) null else "Ingresa un correo o usuario válido")
+            ?: validarPassword(password)
         if (error != null) {
             _uiState.value = AuthUiState.Error(error)
             return
@@ -95,5 +97,11 @@ class AuthViewModel : ViewModel() {
         /** Las pantallas usan estas dos para validar en vivo mientras se escribe. */
         fun esEmailValido(email: String): Boolean = EMAIL_REGEX.matches(email.trim())
         fun esPasswordValida(password: String): Boolean = password.length >= MIN_PASSWORD
+
+        private val USUARIO_REGEX = Regex("^[A-Za-z0-9._]{3,}$")
+
+        /** Usuario: 3 o más letras, números, puntos o guiones bajos, sin espacios. */
+        fun esEmailOUsuarioValido(texto: String): Boolean =
+            esEmailValido(texto) || USUARIO_REGEX.matches(texto.trim())
     }
 }
