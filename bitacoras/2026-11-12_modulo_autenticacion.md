@@ -90,5 +90,5 @@ switch violeta, el logo NO es una S común: son dos piezas iguales giradas 180°
 **¿Compiló al 1er intento?** Sí
 **Auditoría humana:**
 - El logo se redibujó a mano a partir de la imagen (no había archivo original). Comparar con el diseño y corregir si hace falta.
-- Pendiente: la tipografía del diseño (parece Poppins) todavía no está; se usa la fuente del sistema.
+- Tipografía: se agregó Poppins (Google Fonts, licencia OFL) en `res/font` y se aplicó a todos los estilos en `Type.kt`.
 - Probado en el emulador: capturas en `ingenieria/capturas/`.

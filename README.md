@@ -56,6 +56,6 @@ por "SoundCraft". El texto completo de cada prompt está en
 | P2 | `LoginScreen` | Claude (Claude Code) | Sí | Separado en `Screen` + `Content` para usar `@Preview` (*state hoisting*); `TextField` gris en vez de `OutlinedTextField` por el diseño. |
 | P3 | `RegisterScreen` con validación activa | Claude (Claude Code) | Sí | Checkbox reemplazado por Switch y botón "REGISTRARSE", como en el diseño. |
 | P4 | `ForgotPasswordScreen` + `NavHost` | Claude (Claude Code) | Sí | Un solo `AuthViewModel` compartido y `resetState()` al cambiar de pantalla. |
-| P5 | Aplicar nuestro diseño y redibujar el logo "S" como vector | Claude (Claude Code) | Sí | Logo trazado a mano desde la imagen; violeta del logo en lugar del azul #2563EB de la guía; falta la tipografía Poppins. |
+| P5 | Aplicar nuestro diseño y redibujar el logo "S" como vector | Claude (Claude Code) | Sí | Logo trazado a mano desde la imagen; violeta del logo en lugar del azul #2563EB de la guía; tipografía Poppins agregada. |
 
 > **Equipo:** completar la columna de auditoría con lo que ustedes revisaron y probaron.
